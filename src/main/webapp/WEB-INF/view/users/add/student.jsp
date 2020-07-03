@@ -27,7 +27,7 @@
 	            <div class="form-group">
 	                <label for="exampleInputPassword1">Date of birth</label>
 	                <fmt:formatDate value="${yourObject.date}" var="dateString" pattern="dd/MM/yyyy" />
-	                <form:input type="date" path="dob"  class="form-control" id="exampleInputPassword1"/>
+	                <form:input type="date" path="dob"  class="form-control" id="exampleInputPassword1" />
 	            </div>
 	            <div class="form-group">
 	                <label for="">Address</label>

@@ -47,15 +47,7 @@ public class UsersController {
 	@Autowired
 	ParentService parentService;
 	
-	
-	
-	//add repository injection
-	@Autowired
-	private StudentRepo studentRepo;
-	@Autowired 
-	private TeacherRepo teacherRepo;
-	@Autowired
-	private ParentRepo parentRepo;
+
 	
 	
 	
@@ -74,8 +66,7 @@ public class UsersController {
 	
 //	 student
 	@RequestMapping("/students")
-	public String studentsPage(Model model) {	
-		
+	public String studentsPage(Model model) {		
 		model.addAttribute("students",studentService.studentsModelList());
 		return "users/students";
 	}
@@ -86,98 +77,30 @@ public class UsersController {
 	}
 	@RequestMapping("/create/new/student")
 	public String createNewStudent(@ModelAttribute StudentModel studentModel,Model model)	{
-		byte[] bytes=null;
-		try {
-			bytes=Base64.getEncoder().encode(studentModel.getProfilePicture().getBytes());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		Student student = new Student(studentModel.getFirstName(),studentModel.getLastName(),studentModel.getDob(),studentModel.getAddress(),bytes);
-		
-		studentRepo.save(student);
-		
-		model.addAttribute("student",student);
-		
+		model.addAttribute("student",studentService.createNewStudent(studentModel));
 		return "users/add/student-created-success";
 	}
 	@RequestMapping("/student/{userId}/profile")
-	public String updateStudentPage(@PathVariable int userId, Model model) {
-		
-		Optional<Student> student = studentRepo.findById(userId);
-		if(!student.isPresent()) {
-			return "redirect:/teachers";
-		}
-		Student student1=student.get();
-		String profilePicture = "";
-		if(student1.getProfilePicture()!=null)
-			profilePicture=new String(student1.getProfilePicture());
-		
-		
-		StudentModel studentDto = new StudentModel(student1.getFirstName(),student1.getLastName(),student1.getDob()
-				,student1.getAddress(),profilePicture,student1.getStudentId());
-		
-		model.addAttribute("student",studentDto);
-		Parent parent = student.get().getParent();
-		System.out.println("xxxx"+parent);
-		model.addAttribute("parent",parent);
+	public String updateStudentPage(@PathVariable int userId, Model model) {	
+		model.addAttribute("student",studentService.getStudentModelById(userId));
+		model.addAttribute("parent",studentService.getStudentParentByStudentId(userId));
 		return "users/update/student";
 	}
 	@RequestMapping("/updated/student")
-	public String updateStudent(@ModelAttribute StudentModel studentDto) {
-		
-		Student student=new Student(studentDto.getStudentId(),studentDto.getFirstName(),studentDto.getLastName()
-				,studentDto.getDob(),studentDto.getAddress());
-
-		
-		
-		if(studentDto.getProfilePicture().getSize()!=0) {
-			try {
-				byte[] bytes=Base64.getEncoder().encode(studentDto.getProfilePicture().getBytes());
-				student.setProfilePicture(bytes);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		else {
-			Optional<Student> optStudent=studentRepo.findById(studentDto.getStudentId());
-			student.setProfilePicture(optStudent.get().getProfilePicture());
-		}
-		studentRepo.save(student);
+	public String updateStudent(@ModelAttribute StudentModel studentDto) {		
+		studentService.updateStudent(studentDto);
 		return "redirect:/users/students";
 	}
 
 	@RequestMapping("/deleted/student")
 	public String deleteStudent(@RequestParam("studentId") int id) {
-		studentRepo.deleteById(id);
+		studentService.deleteStudent(id);
 		return "redirect:/users/students";
 	}
 //	teacher
 	@RequestMapping("/teachers")
 	public String teachersPage(Model model) {
-		List<Teacher> teachers=(List<Teacher>) teacherRepo.findAll();
-		
-		List<TeacherModel> teacherModels=new ArrayList<TeacherModel>();
-		
-		for(Teacher t:teachers) {
-			if(t.getProfilePicture()==null) {
-				File f = new File("src/logo.png");
-				byte[] bytes=null;
-				try {
-					bytes=Base64.getEncoder().encode(Files.readAllBytes(Paths.get("src/logo.png")));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				t.setProfilePicture(bytes);
-			}
-			
-			teacherModels.add(new TeacherModel(t.getFirstName(),t.getLastName(),t.getDob(),t.getContactNumber(),t.getAddress(),new String(t.getProfilePicture()),t.getTeacherId()));
-			
-		}
-		model.addAttribute("teachers",teacherModels);
+		model.addAttribute("teachers",teacherService.getTeachersAsTeacherDto());
 		return "users/teachers";
 	}
 	@RequestMapping("/add/teacher")
@@ -187,89 +110,39 @@ public class UsersController {
 	}
 	@RequestMapping("/create/new/teacher")
 	public String createNewTeacher(@ModelAttribute TeacherModel teacherModel) {
-		byte[] bytes=null;
-		try {
-			bytes=Base64.getEncoder().encode(teacherModel.getProfilePicture().getBytes());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		Teacher teacher = new Teacher(teacherModel.getFirstName(),teacherModel.getLastName(),teacherModel.getDob(),teacherModel.getContactNumber(),teacherModel.getAddress(),bytes);
-		
-		teacherRepo.save(teacher);
+		teacherService.createNewTeacherByTeacherModel(teacherModel);
 		return "redirect:/users/teachers";
 	}
 	@RequestMapping("/teacher/{userId}/profile")
 	public String updateTeacherPage(@PathVariable int userId, Model model) {
-		
-		Optional<Teacher> teacher=teacherRepo.findById(userId);
-		if(!teacher.isPresent()) {
-			return "redirect:/teachers";
-		}
-		Teacher teacher1=teacher.get();
-		String profilePicture = "";
-		if(teacher1.getProfilePicture()!=null)
-			profilePicture=new String(teacher1.getProfilePicture());
-		
-		
-		TeacherModel teacherDto=new TeacherModel(teacher1.getFirstName(),teacher1.getLastName(),teacher1.getDob(),teacher1.getContactNumber()
-				,teacher1.getAddress(),profilePicture,teacher1.getTeacherId());
-		
-		model.addAttribute("teacher",teacherDto);
+		model.addAttribute("teacher",teacherService.updateTeacherByTeachetId(userId));
 		return "users/update/teacher";
 	}
 	@RequestMapping("/updated/teacher")
 	public String updateTeacher(@ModelAttribute TeacherModel teacherDto) {
-		
-		Teacher teacher=new Teacher(teacherDto.getTeacherId(),teacherDto.getFirstName(),teacherDto.getLastName()
-				,teacherDto.getDob(),teacherDto.getContactNumber(),teacherDto.getAddress());
-
-		
-		
-		if(teacherDto.getProfilePicture().getSize()!=0) {
-			try {
-				byte[] bytes=Base64.getEncoder().encode(teacherDto.getProfilePicture().getBytes());
-				teacher.setProfilePicture(bytes);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		else {
-			Optional<Teacher> optTeacher=teacherRepo.findById(teacherDto.getTeacherId());
-			teacher.setProfilePicture(optTeacher.get().getProfilePicture());
-		}
-		teacherRepo.save(teacher);
+		teacherService.updateTeacherByTeacherDto(teacherDto);
 		return "redirect:/users/teachers";
 	}
 	@RequestMapping("/deleted/teacher")
 	public String deleteTeacher(@RequestParam("teacherId") int id) {
-		teacherRepo.deleteById(id);
+		
+		teacherService.deleteTeacherById(id);
 		return "redirect:/users/teachers";
 	}
 //parent
 	@RequestMapping("/parents")
 	public String parentsPage(Model model) {
-		List<Parent> parents=(List<Parent>) parentRepo.findAll();
-		model.addAttribute("parents",parents);
+		model.addAttribute("parents",parentService.getAllParents());
 		return "users/parents";
 	}
 	@RequestMapping("/create/{studentId}/parent")
 	public String addParent(@ModelAttribute Parent parent,@PathVariable int studentId) {
-		Optional<Student> student=studentRepo.findById(studentId);
-		student.get().setParent(parent);
-		studentRepo.save(student.get());
-		System.out.println(parent);
+		studentService.addParentByStudentReference(studentId,parent);
 		return "redirect:/users/students";
 	}
 	@RequestMapping("/update/{studentId}/parent")
 	public String updateParent(@ModelAttribute Parent parent,@PathVariable int studentId) {
-		Optional<Student> student=studentRepo.findById(studentId);
-		Parent parent1=student.get().getParent();
-		parent.setParentId(parent1.getParentId());
-		parentRepo.save(parent);
-		System.out.println(parent1);
+		studentService.updateParentByStudentId(studentId,parent);
 		return "redirect:/users/students";
 	}
 	
