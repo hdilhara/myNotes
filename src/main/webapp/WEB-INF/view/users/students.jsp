@@ -82,9 +82,13 @@
                 ${student.lastName}<br>
                 ${student.dob}<br>
                 section
-              </p><button type="button"  class="btn btn-outline-dark std-manage-btn">PROFILE</button>
+              </p>
+              
+              <a href="${pageContext.request.contextPath}/users/student/${student.studentId}/profile"><button type="button"  class="btn btn-outline-dark std-manage-btn" >PROFILE</button></a>
             </div>
           </div>
+          
+          
           </c:forEach>
 
 

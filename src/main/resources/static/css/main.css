@@ -153,3 +153,37 @@
             padding: 35px;
             margin: auto;
         }
+        
+ /*teachers page*/
+        .teacher-manage-btn{
+        	    display: block;
+			    margin-top: 20px;
+			    margin-bottom: 20px;
+			    margin-left: auto;
+			    margin-right: auto;
+        }
+        
+ /*update model styles*/
+ 		.id-read-only>input{
+ 			border: none;
+		    background-color: #001C40;
+		    text-align: center;
+		    color: white;
+ 		}
+ 		.model-card-img-top{
+ 			display: block;
+ 			text-align: center;
+ 		}
+ 		.update-delete-btn{
+ 		    margin: auto;
+    		display: block;
+    	}
+    	
+    	
+ /*Back button styles*/
+	 .back-btn{
+     margin: 10px;
+    padding: 5px;
+    font-size: 14px;
+    padding-right: 10px;
+	 }

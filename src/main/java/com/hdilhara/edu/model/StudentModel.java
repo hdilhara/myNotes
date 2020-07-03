@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class StudentModel {
 
+	private int studentId;
 	private String firstName;
 	private String lastName;
 	
@@ -29,6 +30,15 @@ public class StudentModel {
 		this.dob = dob;
 		this.address=address;
 		this.stringProfilePicture = stringProfilePicture;
+	}
+	public StudentModel(String firstName, String lastName, Date dob,String address, String stringProfilePicture,int studentID) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.dob = dob;
+		this.address=address;
+		this.stringProfilePicture = stringProfilePicture;
+		this.studentId=studentID;
 	}
 
 	public String getFirstName() {
@@ -69,6 +79,15 @@ public class StudentModel {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
+	public int getStudentId() {
+		return studentId;
+	}
+
+	public void setStudentId(int studentId) {
+		this.studentId = studentId;
+	}
+
 	
 	
 	

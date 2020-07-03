@@ -1,3 +1,4 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../fragments/sidebar.jsp" %>
 <%@ page isELIgnored="false" %>
 
@@ -28,6 +29,32 @@
       
       <!-- Add body of this user content -->
       <hr>
+      
+      
+      
+      <c:forEach var="parent" items="${parents}" >
+      
+	       <div class="card student-load-result" style="width: 175px;">
+          
+            <div class="card-body">
+              <p class="card-text loaded-student-details">
+                <b>${parent.firstName}</b><br>
+                ${parent.lastName}<br>
+
+              </p>
+              
+              <a href="${pageContext.request.contextPath}/users/student/${student.studentId}/profile"><button type="button"  class="btn btn-outline-dark std-manage-btn" >PROFILE</button></a>
+            </div>
+          </div>
+      
+      
+		</c:forEach>  
+      
+      
+      
+      
+      
+      
       
       
       

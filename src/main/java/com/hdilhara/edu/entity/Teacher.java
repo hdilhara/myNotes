@@ -1,115 +1,106 @@
 package com.hdilhara.edu.entity;
 
-
-
 import java.sql.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-public class Student {
-	
+public class Teacher {
+
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private int studentId;
-	
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int teacherId;
 	private String firstName;
 	private String lastName;
-	
 	private Date dob;
+	private int contactNumber;
 	private String address;
 	
 	@Lob
 	@Column(columnDefinition = "MEDIUMBLOB")
 	private byte[] profilePicture;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "parentId")
-	private Parent parent;
 
-	public Student() {
+	public Teacher() {
 		super();
 	}
-	
-	public Student( String firstName, String lastName, Date dob,String address, byte[] profilePicture) {
+
+	public Teacher(String firstName, String lastName, Date dob, int contactNumber, String address,
+			byte[] profilePicture) {
 		super();
-		this.studentId = studentId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dob = dob;
+		this.contactNumber = contactNumber;
 		this.address = address;
 		this.profilePicture = profilePicture;
 	}
 
-	
-	
-
-	public Student(int studentId, String firstName, String lastName, Date dob, String address, byte[] profilePicture) {
+	public Teacher(int teacherId, String firstName, String lastName, Date dob, int contactNumber, String address,
+			byte[] profilePicture) {
 		super();
-		this.studentId = studentId;
+		this.teacherId = teacherId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dob = dob;
+		this.contactNumber = contactNumber;
 		this.address = address;
 		this.profilePicture = profilePicture;
 	}
 	
-	
 
-	public Student(int studentId, String firstName, String lastName, Date dob, String address) {
+	public Teacher(int teacherId, String firstName, String lastName, Date dob, int contactNumber, String address) {
 		super();
-		this.studentId = studentId;
+		this.teacherId = teacherId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dob = dob;
+		this.contactNumber = contactNumber;
 		this.address = address;
 	}
 
-	public int getStudentId() {
-		return studentId;
+	public int getTeacherId() {
+		return teacherId;
 	}
 
-	public void setStudentId(int studentId) {
-		this.studentId = studentId;
+	public void setTeacherId(int teacherId) {
+		this.teacherId = teacherId;
 	}
 
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 	public String getLastName() {
 		return lastName;
 	}
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
 	public Date getDob() {
 		return dob;
 	}
+
 	public void setDob(Date dob) {
 		this.dob = dob;
 	}
-	public byte[] getProfilePicture() {
-		return profilePicture;
+
+	public int getContactNumber() {
+		return contactNumber;
 	}
-	public void setProfilePicture(byte[] profilePicture) {
-		this.profilePicture = profilePicture;
+
+	public void setContactNumber(int contactNumber) {
+		this.contactNumber = contactNumber;
 	}
 
 	public String getAddress() {
@@ -120,13 +111,20 @@ public class Student {
 		this.address = address;
 	}
 
-	public Parent getParent() {
-		return parent;
+	public byte[] getProfilePicture() {
+		return profilePicture;
 	}
 
-	public void setParent(Parent parent) {
-		this.parent = parent;
+	public void setProfilePicture(byte[] profilePicture) {
+		this.profilePicture = profilePicture;
 	}
+
+	@Override
+	public String toString() {
+		return "Teacher [teacherId=" + teacherId + ", firstName=" + firstName + ", lastName=" + lastName + ", dob="
+				+ dob + ", contactNumber=" + contactNumber + ", address=" + address + "]";
+	}
+	
 	
 	
 	
