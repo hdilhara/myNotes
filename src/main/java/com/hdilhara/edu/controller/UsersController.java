@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.hdilhara.edu.entity.Parent;
 import com.hdilhara.edu.entity.Student;
 import com.hdilhara.edu.entity.Teacher;
@@ -145,7 +146,12 @@ public class UsersController {
 		studentService.updateParentByStudentId(studentId,parent);
 		return "redirect:/users/students";
 	}
-	
+	@RequestMapping("/parent/{parentId}/profile")
+	public String parentProfilePage(@PathVariable int parentId, Model model) {
+		model.addAttribute("parent",parentService.getParentById(parentId));
+		model.addAttribute("student",parentService.getStudentByParentId(parentId));
+		return "users/update/parent";
+	}
 	
 
 }

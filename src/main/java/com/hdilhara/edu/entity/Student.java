@@ -3,6 +3,7 @@ package com.hdilhara.edu.entity;
 
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -40,7 +43,18 @@ public class Student {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "parentId")
 	private Parent parent;
-
+	
+	//student class mapping
+	@ManyToMany
+	@JoinTable(
+			name = "student_class",
+			joinColumns = @JoinColumn(name="studentId"),
+			inverseJoinColumns = @JoinColumn(name="classId")
+			)
+	private List<Classes> classes;
+	
+	
+	//constructors
 	public Student() {
 		super();
 	}

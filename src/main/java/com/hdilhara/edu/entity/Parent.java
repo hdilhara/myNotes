@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 public class Parent {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int parentId;
 	
 	private String firstName;
@@ -74,6 +74,14 @@ public class Parent {
 	}
 	public void setContactNumber(int contactNumber) {
 		this.contactNumber = contactNumber;
+	}
+	
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
 	}
 
 	@Override

@@ -37,10 +37,6 @@ public class AppController {
 		
 		return "noticeboard";
 	}
-	@RequestMapping("/classes")
-	public String classesPage() {
-		
-		return "classes";
-	}
+	
 
 }

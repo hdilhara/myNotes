@@ -30,8 +30,7 @@
       <!-- Add body of this user content -->
       <hr>
       
-      
-      
+      <div class="load-parents">
       <c:forEach var="parent" items="${parents}" >
       
 	       <div class="card student-load-result" style="width: 175px;">
@@ -43,14 +42,14 @@
 
               </p>
               
-              <a href="${pageContext.request.contextPath}/users/student/${student.studentId}/profile"><button type="button"  class="btn btn-outline-dark std-manage-btn" >PROFILE</button></a>
+              <a href="${pageContext.request.contextPath}/users/parent/${parent.parentId}/profile"><button type="button"  class="btn btn-outline-dark std-manage-btn" >PROFILE</button></a>
             </div>
           </div>
       
       
 		</c:forEach>  
       
-      
+      </div>
       
       
       

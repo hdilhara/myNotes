@@ -110,6 +110,7 @@ public class StudentService {
 		parent.setParentId(parent1.getParentId());
 		parentService.parentRepo.save(parent);
 	}
-	
+
+
 	
 }
